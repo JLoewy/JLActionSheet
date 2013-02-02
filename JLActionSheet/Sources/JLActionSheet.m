@@ -9,6 +9,10 @@
 #import "JLActionSheet.h"
 #import <QuartzCore/QuartzCore.h>
 
+
+#import "JLActionButton.h"
+
+
 @interface JLActionSheet ()
 
 @property (nonatomic, strong) id<JLActionSheetDelegate> delegate;

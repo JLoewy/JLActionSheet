@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JLActionButton.h"
 #import "JLActionSheetStyle.h"
 
 @class JLActionSheet;
