@@ -1,6 +1,6 @@
 <h1>JLActionsheet</h1>
 An easy to use and customize replacement to the stock UIActionSheet<br><br>
-<img src="http://jloewy.com/frameworks/JLActionSheet/Steel.png"><img src="http://jloewy.com/frameworks/JLActionSheet/CleanBlue.png"><br>
+<img src="http://jloewy.com/frameworks/JLActionSheet/Demo.png"><img src="http://jloewy.com/frameworks/JLActionSheet/Steel.png"><img src="http://jloewy.com/frameworks/JLActionSheet/CleanBlue.png"><br>
 <h2>Installation</h2>
 <hr>
 Copy contents of the 'Sources' folder to your project
