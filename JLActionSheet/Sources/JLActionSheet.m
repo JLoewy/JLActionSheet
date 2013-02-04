@@ -250,6 +250,17 @@ const NSInteger tapBGViewTag            = 4292;
     return title;
 }
 
+/*
+ Responsible for determining if the JLActionsheet is currently being presented or not
+ */
+- (BOOL) isVisible
+{
+    if (_popoverController)
+        return [_popoverController isPopoverVisible] ? YES : NO;
+    
+    return (self.superview == nil) ? NO : YES;
+}
+
 #pragma mark - 
 #pragma mark - UI Mutator Methods
 

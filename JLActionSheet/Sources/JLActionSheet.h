@@ -38,6 +38,7 @@
 
 /// Accessor Methods
 - (NSString*) titleAtIndex:(NSInteger)buttonIndex;
+- (BOOL) isVisible;
 
 /// UI Mutator Methods
 - (void) allowTapToDismiss:(BOOL) allowTap;
