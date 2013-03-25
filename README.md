@@ -17,7 +17,14 @@ The JLActionSheet can be treated just like you would a UIActionSheet.  Initializ
 showInView:<br>
 showOnViewController:<br>
 showFromBarItem: onView:<br>
-showFromBarItem: onViewController<br>
+showFromBarItem: onViewController<br><br>
+
+<u>To Do</u><br>
+• Currently, both delegate methods need to be implemented in presenter viewcontroller
+• When showing from a barbuttonitem your JLActionSheet needs to be an instance variable
+• Right now nothing is handled with the title attribute of the JLActionSheet
+- All of those three to do items will be handled very shortly
+
 
 <h1>License</h1>
 If you end up using JLActionSheet in your project shoot me an email and let me know so I can check it out because I think thats cool,  JasonLoewy@gmail.com<br><br>
