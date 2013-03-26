@@ -130,6 +130,8 @@ const NSInteger tapBGViewTag            = 4292;
     [buttonParentView.layer setShadowOffset:CGSizeMake(0, -3.0f)];
     [buttonParentView.layer setShadowOpacity:.3f];
     [buttonParentView.layer setShadowRadius:4.0f];
+    CGPathRef path = [UIBezierPath bezierPathWithRect:buttonParentView.bounds].CGPath;
+    [buttonParentView.layer setShadowPath:path];
     return buttonParentView;
 }
 
