@@ -259,7 +259,8 @@ const NSInteger tapBGViewTag         = 4292;
     else
     {
         [_popoverController dismissPopoverAnimated:YES];
-        [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+        if ([_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
+            [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
     }
 }
 
