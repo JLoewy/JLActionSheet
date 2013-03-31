@@ -85,4 +85,12 @@
         [self setBackgroundColor:_bgColor];
 }
 
+/*
+ Responsible for configuring the top action button with respect to Y placement when there is a title above it
+ */
+- (void) configureForTitle
+{
+    [_topBorder setHidden:YES];
+}
+
 @end

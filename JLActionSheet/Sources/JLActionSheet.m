@@ -42,9 +42,9 @@
 #pragma mark - 
 #pragma mark - Initialization Methods
 
-const NSInteger cancelButtonTag         = 9382;
-const NSInteger buttonParentsViewTag    = 28453;
-const NSInteger tapBGViewTag            = 4292;
+const NSInteger cancelButtonTag      = 9382;
+const NSInteger buttonParentsViewTag = 28453;
+const NSInteger tapBGViewTag         = 4292;
 
 - (id) initWithTitle:(NSString *)title delegate:(id<JLActionSheetDelegate>)delegate cancleButtonTitle:(NSString *)cancelTitle otherButtonTitles:(NSArray *)buttonTitles
 {
@@ -67,9 +67,9 @@ const NSInteger tapBGViewTag            = 4292;
         [self setAutoresizesSubviews:YES];
         
         // Create the background clear tap responder view
-        UITapGestureRecognizer* tapGesture  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissActionSheet:)];
-        UIView* tapBGView                   = [[UIView alloc] initWithFrame:self.frame];
-        tapBGView.tag                       = tapBGViewTag;
+        UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissActionSheet:)];
+        UIView* tapBGView                  = [[UIView alloc] initWithFrame:self.frame];
+        tapBGView.tag                      = tapBGViewTag;
         
         [tapBGView setBackgroundColor:[UIColor colorWithWhite:0.0 alpha:kBGFadeOpacity]];
         [tapBGView addGestureRecognizer:tapGesture];
@@ -90,12 +90,13 @@ const NSInteger tapBGViewTag            = 4292;
 #pragma mark - Presentation Methods
 
 
-- (UIView*) layoutButtons
+- (UIView*) layoutButtonsWithTitle:(BOOL) allowTitle
 {
+    CGFloat titleOffset                 = (_title == nil || !allowTitle) ? 0 : 20;
     JLActionSheetStyle* currentStlye    = [[JLActionSheetStyle alloc] initWithStyle:_style];
     CGFloat buttonHeight                = kActionButtonHeight;
     NSInteger buttonCount               = _cancelTitle ? (_buttonTitles.count + 1) : _buttonTitles.count;
-    CGFloat parentViewHeight            = (buttonHeight * buttonCount);
+    CGFloat parentViewHeight            = ((buttonHeight * buttonCount) + titleOffset);
     UIView* buttonParentView            = [[UIView alloc] initWithFrame:CGRectMake(0, (CGRectGetHeight(self.bounds) - parentViewHeight), CGRectGetWidth(self.bounds), parentViewHeight)];
     CGFloat currentButtonTop            = buttonParentView.bounds.size.height - buttonHeight;
     CGFloat currentButtonTag            = 0;
@@ -125,6 +126,24 @@ const NSInteger tapBGViewTag            = 4292;
         currentButtonTop -= buttonHeight;
     }
     
+    // Handle creating the title object if there is a title provided
+    if (_title.length > 0 && allowTitle)
+    {
+        [buttonParentView setBackgroundColor:[currentStlye getBGColorHighlighted:NO]];
+        [((JLActionButton*)[buttonParentView.subviews lastObject]) configureForTitle];
+        
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(buttonParentView.bounds), titleOffset)];        
+        [titleLabel setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin)];
+        [titleLabel setBackgroundColor:[UIColor clearColor]];
+        [titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+        [titleLabel setTextColor:[currentStlye getTextColor:NO]];
+        [titleLabel setShadowOffset:CGSizeMake(0, -1.0)];
+        [titleLabel setShadowColor:[currentStlye getTextShadowColor:NO]];
+        [titleLabel setTextAlignment:NSTextAlignmentCenter];
+        [titleLabel setText:_title];
+        
+        [buttonParentView addSubview:titleLabel];
+    }
     [buttonParentView setAutoresizingMask:(UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth)];
     [buttonParentView.layer setShadowColor:[UIColor blackColor].CGColor];
     [buttonParentView.layer setShadowOffset:CGSizeMake(0, -3.0f)];
@@ -147,7 +166,7 @@ const NSInteger tapBGViewTag            = 4292;
     [self setFrame:viewToAddTo.bounds];
     
     // Create the parent UIView that houses the JLActionButtons
-    UIView* buttonsParentView   = [self layoutButtons];
+    UIView* buttonsParentView   = [self layoutButtonsWithTitle:YES];
     buttonsParentView.tag       = buttonParentsViewTag;
     CGPoint originalCenter      = buttonsParentView.center;
     [buttonsParentView setCenter:CGPointMake(buttonsParentView.center.x, (CGRectGetHeight(self.bounds) + (CGRectGetHeight(buttonsParentView.bounds) / 2)))];
@@ -178,18 +197,37 @@ const NSInteger tapBGViewTag            = 4292;
         [self showInView:parentView];
     else
     {
-        UIView* buttonsParentView       = [self layoutButtons];
-        
-        NSLog(@"FRAME: %@", NSStringFromCGRect(buttonsParentView.frame));
-        NSLog(@"BOUNDS: %@", NSStringFromCGRect(buttonsParentView.bounds));
-        
+        BOOL allowTitle                 = (_title.length > 0) ? NO : YES;
+        UIView* buttonsParentView       = [self layoutButtonsWithTitle:allowTitle];
         UIViewController* actionSheetVC = [[UIViewController alloc] init];
         actionSheetVC.view              = buttonsParentView;
-        _popoverController = [[UIPopoverController alloc] initWithContentViewController:actionSheetVC];
-        [_popoverController setPopoverContentSize:CGSizeMake(_popoverController.popoverContentSize.width, buttonsParentView.bounds.size.height)];
-        [_popoverController presentPopoverFromBarButtonItem:barButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        NSLog(@"Content Size: %@", NSStringFromCGSize(_popoverController.popoverContentSize));
         
+        if (_title.length > 0)
+        {
+            // Enter here if there is a title for this actionsheet
+            UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:actionSheetVC];
+            _popoverController = [[UIPopoverController alloc] initWithContentViewController:navController];
+            [_popoverController setPopoverContentSize:CGSizeMake(_popoverController.popoverContentSize.width, buttonsParentView.bounds.size.height + (navController.navigationBar.bounds.size.height - 10))];
+            
+            // Initialize and configure the navigation title item
+            UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _popoverController.popoverContentSize.width, 34)];
+            [titleLabel setBackgroundColor:[UIColor clearColor]];
+            [titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+            [titleLabel setTextColor:[UIColor whiteColor]];
+            [titleLabel setTextAlignment:NSTextAlignmentCenter];
+            [titleLabel setShadowColor:[UIColor blackColor]];
+            [titleLabel setShadowOffset:CGSizeMake(0, -.5)];
+            
+            [titleLabel setText:_title];
+            [actionSheetVC.navigationItem setTitleView:titleLabel];
+        }
+        else
+        {
+            _popoverController = [[UIPopoverController alloc] initWithContentViewController:actionSheetVC];
+            [_popoverController setPopoverContentSize:CGSizeMake(_popoverController.popoverContentSize.width, buttonsParentView.bounds.size.height)];
+        }
+        
+        [_popoverController presentPopoverFromBarButtonItem:barButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
 

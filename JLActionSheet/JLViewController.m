@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *allowTapSwitch;
 
 @property (weak, nonatomic) IBOutlet UILabel *selectedLabel;
+@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 
 @end
 
@@ -28,16 +29,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 #pragma mark - 
 #pragma mark - Demo Convenience Methods 
+
+- (IBAction) keyboardDonePressed:(id) sender
+{
+    [_titleTextField resignFirstResponder];
+}
 
 - (JLStyle) getSelectedStyle
 {
@@ -85,9 +86,13 @@
 
 - (IBAction)presentInView:(id)sender
 {
+    [_titleTextField resignFirstResponder];
+    
     NSMutableArray* buttonTitles = [self getButtonTitles];
-    NSString* cancelTitle   = [_showCancelButton isOn] ? @"Cancel" : nil;
-    _actionSheet            = [JLActionSheet sheetWithTitle:nil delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
+    NSString* cancelTitle        = [_showCancelButton isOn] ? @"Cancel" : nil;
+    NSString* sheetTitle         = (_titleTextField.text.length > 0) ? _titleTextField.text : nil;
+    
+    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
     [_actionSheet allowTapToDismiss:[_allowTapSwitch isOn]];
     [_actionSheet setStyle:[self getSelectedStyle]];
     [_actionSheet showOnViewController:self];
@@ -95,10 +100,13 @@
 
 - (IBAction)presentFromNavBar:(UIBarButtonItem *)sender
 {
-    NSMutableArray* buttonTitles = [self getButtonTitles];
-    NSString* cancelTitle   = [_showCancelButton isOn] ? @"Cancel" : nil;
+    [_titleTextField resignFirstResponder];
     
-    _actionSheet            = [JLActionSheet sheetWithTitle:nil delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
+    NSMutableArray* buttonTitles = [self getButtonTitles];
+    NSString* cancelTitle        = [_showCancelButton isOn] ? @"Cancel" : nil;
+    NSString* sheetTitle         = (_titleTextField.text.length > 0) ? _titleTextField.text : nil;
+    
+    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
     [_actionSheet allowTapToDismiss:[_allowTapSwitch isOn]];
     [_actionSheet setStyle:[self getSelectedStyle]];
     [_actionSheet showFromBarItem:sender onViewController:self];
