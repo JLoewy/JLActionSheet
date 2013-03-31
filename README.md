@@ -22,7 +22,7 @@ showFromBarItem: onViewController<br><br>
 <u>To Do</u><br>
 (1) Currently, both delegate methods need to be implemented in presenter viewcontroller<br>
 (2) When showing from a barbuttonitem your JLActionSheet needs to be an instance variable<br>
-(3) Right now nothing is handled with the title attribute of the JLActionSheet<br>
+(3) Handle blocks instead of forcing delegate action
 All of those three to do items will be handled very shortly<br><br>
 
 <h1>License</h1>
