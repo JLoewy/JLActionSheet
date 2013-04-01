@@ -20,9 +20,9 @@ showFromBarItem: onView:<br>
 showFromBarItem: onViewController<br><br>
 
 <u>Block Support</u><br>
-Block support is available for JLActionSheet.  You can set two different block variables, clickedButtonBlock and didDismissBlock.  Blocks are given a higher priority since they have to explicitly be set, i.e. when their block gets set it gets called instead of its related delegate method.
-setClickedButtonBlock:
-setDidDismissBlock:
+Block support is available for JLActionSheet.  You can set two different block variables, clickedButtonBlock and didDismissBlock.  Blocks are given a higher priority since they have to explicitly be set, i.e. when their block gets set it gets called instead of its related delegate method.<br>
+setClickedButtonBlock:<br>
+setDidDismissBlock:<br>
 
 <u>To Do</u><br>
 (1) When showing from a barbuttonitem your JLActionSheet needs to be an instance variable<br>
