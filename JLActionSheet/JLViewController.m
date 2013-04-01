@@ -106,16 +106,32 @@
     NSString* cancelTitle        = [_showCancelButton isOn] ? @"Cancel" : nil;
     NSString* sheetTitle         = (_titleTextField.text.length > 0) ? _titleTextField.text : nil;
     
-    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
+    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];    
     [_actionSheet allowTapToDismiss:[_allowTapSwitch isOn]];
     [_actionSheet setStyle:[self getSelectedStyle]];
     [_actionSheet showFromBarItem:sender onViewController:self];
 }
 
+/*
+ Shows how to use blocks with JLActionSheet
+ Setting blocks make them take priority over delegate usage
+ */
+- (void) addExampleBlocks
+{
+    [_actionSheet setClickedButtonBlock:^(JLActionSheet* actionSheet, NSInteger buttonIndex){
+        NSLog(@"Call Back");
+        NSLog(@"Clicked button title: %@", [actionSheet titleAtIndex:buttonIndex]);
+    }];
+    
+    [_actionSheet setDidDismissBlock:^(JLActionSheet* actionSheet, NSInteger buttonIndex){
+        NSLog(@"Did Dismiss Block");
+    }];
+}
+
 #pragma mark - 
 #pragma mark - JLActionSheet Delegate
 
-
+// Called when the action button is initially clicked
 - (void) actionSheet:(JLActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"Clicked Button: %d Title: %@", buttonIndex, [actionSheet titleAtIndex:buttonIndex]);
@@ -124,6 +140,7 @@
         NSLog(@"Is cancel button");
 }
 
+// Called when the action button fully disappears from view
 - (void) actionSheet:(JLActionSheet *)actionSheet didDismissButtonAtIndex:(NSInteger)buttonIndex
 {
     NSLog(@"Did dismiss");

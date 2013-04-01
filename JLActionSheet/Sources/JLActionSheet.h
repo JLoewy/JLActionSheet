@@ -18,7 +18,12 @@
 
 @end
 
+typedef void(^JLActionBlock)(JLActionSheet* actionSheet, NSInteger buttonIndex);
 @interface JLActionSheet : UIView
+{
+    JLActionBlock clickedButtonBlock;
+    JLActionBlock didDismissBlock;
+}
 
 // Data Objects
 @property (readonly) NSInteger cancelButtonIndex;
@@ -29,6 +34,10 @@
 /// Initialization Methods
 + (id) sheetWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancleButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;
 - (id) initWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancleButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;
+
+/// Action Block Methods
+- (void) setClickedButtonBlock:(JLActionBlock) actionBlock;
+- (void) setDidDismissBlock:(JLActionBlock) actionBlocks;
 
 /// Presentation Methods
 - (void) showInView:(UIView*) parentView;

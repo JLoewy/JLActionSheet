@@ -9,14 +9,14 @@
 #import "JLActionSheet.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 #import "JLActionButton.h"
-
 
 @interface JLActionSheet ()
 
+/// Action Objects
 @property (nonatomic, strong) id<JLActionSheetDelegate> delegate;
 
+/// UI Instance Objects
 @property (nonatomic, strong) NSString* title;
 @property (nonatomic, strong) NSString* cancelTitle;
 @property (nonatomic, strong) NSArray* buttonTitles;
@@ -25,7 +25,6 @@
 @property (nonatomic, strong) UIPopoverController* popoverController;
 
 @end
-
 
 @implementation JLActionSheet
 
@@ -250,17 +249,34 @@ const NSInteger tapBGViewTag         = 4292;
         [UIView animateWithDuration:(kBGFadeDuration + .05) delay:0.175 options:UIViewAnimationOptionCurveLinear animations:^{
             [[self viewWithTag:tapBGViewTag] setAlpha:0.0f];
             [buttonsParentView setCenter:CGPointMake(buttonsParentView.center.x, (CGRectGetHeight(self.bounds) + (CGRectGetHeight(buttonsParentView.bounds) / 2)))];
-        }completion:^(BOOL finished){
+        }completion:^(BOOL finished)
+        {
             [self removeFromSuperview];
-            if ([sender isKindOfClass:[JLActionButton class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
-                [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+            
+            //----
+            // If a didDismissBLock has been provided fire that
+            // If not check if the delegate responds to the didDismiss action and fire that
+            // blocks take precedence over delegate since they must be explicitely provided
+            //----
+            if (didDismissBlock)
+                didDismissBlock(self, ((JLActionButton*)sender).tag);
+            else if ([sender isKindOfClass:[JLActionButton class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
+                    [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
         }];
     }
     else
     {
         [_popoverController dismissPopoverAnimated:YES];
-        if ([_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
-            [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+        
+        //----
+        // If a didDismissBLock has been provided fire that
+        // If not check if the delegate responds to the didDismiss action and fire that
+        // blocks take precedence over delegate since they must be explicitely provided
+        //----
+        if (didDismissBlock)
+            didDismissBlock(self, ((JLActionButton*)sender).tag);
+        else if ([_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
+                [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
     }
 }
 
@@ -272,12 +288,20 @@ const NSInteger tapBGViewTag         = 4292;
  */
 - (void) buttonClicked:(JLActionButton*) sender
 {
-    if ([_delegate respondsToSelector:@selector(actionSheet:clickedButtonAtIndex:)])
-        [_delegate actionSheet:self clickedButtonAtIndex:sender.tag];
+    //----
+    // If a clickedButtonBlock has been provided fire that
+    // If not check if the delegate responds to the clickedButton action and fire that
+    // blocks take precedence over delegate since they must be explicitely provided
+    //----
+    if (clickedButtonBlock)
+        clickedButtonBlock(self, sender.tag);
+    else if ([_delegate respondsToSelector:@selector(actionSheet:clickedButtonAtIndex:)])
+            [_delegate actionSheet:self clickedButtonAtIndex:sender.tag];
+    
     [self dismissActionSheet:sender];
 }
 
-#pragma mark - 
+#pragma mark -
 #pragma mark - Accessor Methods
 
 - (NSString*) titleAtIndex:(NSInteger)buttonIndex
@@ -320,6 +344,31 @@ const NSInteger tapBGViewTag         = 4292;
         UITapGestureRecognizer* tapGesture  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissActionSheet:)];
         [tapBGView addGestureRecognizer:tapGesture];        
     }
+}
+
+#pragma mark -
+#pragma mark - Action Mutator Methods
+
+/*
+ Responsible for setting the functionality of the clickedButtonBlock
+ This will then be used in place over a delegate call when it is set
+ PARAMETERS
+ actionBlock -> The block of code that will be used for the clickedButtonBlock
+ */
+- (void) setClickedButtonBlock:(JLActionBlock)actionBlock
+{
+    clickedButtonBlock = actionBlock;
+}
+
+/*
+ Responsible for setting the functionality of teh didDismissBlock
+ This will then be used in place over a delegate call when it is set
+ PARAMETER:
+ actionBlock -> The block of code that will be used for the didDismissBlock
+ */
+- (void) setDidDismissBlock:(JLActionBlock)actionBlock
+{
+    didDismissBlock = actionBlock;
 }
 
 @end
