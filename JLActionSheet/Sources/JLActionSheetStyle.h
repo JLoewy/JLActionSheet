@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 typedef enum JLStyle {
-    STEEL,
-    SUPERCLEAN,
-    CLEANBLUE,
-    FERRARI
+    JLSTYLE_STEEL,
+    JLSTYLE_SUPERCLEAN,
+    JLSTYLE_CLEANBLUE,
+    JLSTYLE_FERRARI
 } JLStyle;
 
 @interface JLActionSheetStyle : NSObject
