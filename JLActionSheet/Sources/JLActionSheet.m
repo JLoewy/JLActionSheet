@@ -29,7 +29,7 @@
 @implementation JLActionSheet
 
 /// UI Objects
-#define kDefaultStyle STEEL
+#define kDefaultStyle JLSTYLE_STEEL
 #define kActionButtonHeight 60.0f
 
 /// Display Macros

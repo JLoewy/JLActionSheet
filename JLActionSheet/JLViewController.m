@@ -45,13 +45,13 @@
     JLStyle selectedStyle;
     // Determine which style to be used
     if (_styleSegmentedController.selectedSegmentIndex == 1)
-        selectedStyle = SUPERCLEAN;
+        selectedStyle = JLSTYLE_SUPERCLEAN;
     else if (_styleSegmentedController.selectedSegmentIndex == 2)
-        selectedStyle = FERRARI;
+        selectedStyle = JLSTYLE_FERRARI;
     else if (_styleSegmentedController.selectedSegmentIndex == 3)
-        selectedStyle = CLEANBLUE;
+        selectedStyle = JLSTYLE_CLEANBLUE;
     else
-        selectedStyle = STEEL;
+        selectedStyle = JLSTYLE_STEEL;
     
     return selectedStyle;
 }

@@ -33,7 +33,7 @@
 {
     if (self =[super init])
     {
-        if (style == STEEL)
+        if (style == JLSTYLE_STEEL)
         {
             _standardBGColor        = Color(59, 59, 59, 1.0);
             _highlightedBGColor     = Color(20, 20, 20, 1.0);
@@ -51,12 +51,12 @@
             _cancelTextColor        = _textColor;
             _cancelTextShadowColor  = _textShadowColor;
         }
-        else if (style == SUPERCLEAN || style == CLEANBLUE)
+        else if (style == JLSTYLE_SUPERCLEAN || style == JLSTYLE_CLEANBLUE)
         {
             _standardBGColor        = Color(220, 220, 220, 1.0);
             _highlightedBGColor     = Color(205, 205, 205, 1.0);
             
-            if (style == SUPERCLEAN)
+            if (style == JLSTYLE_SUPERCLEAN)
             {
                 _cancelBGColor          = Color(165, 24, 13, 1.0);
                 _cancelHighlightedBG    = Color(135, 20, 9, 1.0);
@@ -77,7 +77,7 @@
             _cancelTextColor        = [UIColor whiteColor];
             _cancelTextShadowColor  = [UIColor colorWithWhite:.05 alpha:1.0];
         }
-        else if (style == FERRARI)
+        else if (style == JLSTYLE_FERRARI)
         {
             _standardBGColor        = Color(232, 44, 56, 1.0);
             _highlightedBGColor     = Color(191, 26, 42, 1.0);
