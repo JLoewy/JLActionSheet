@@ -92,7 +92,7 @@
     NSString* cancelTitle        = [_showCancelButton isOn] ? @"Cancel" : nil;
     NSString* sheetTitle         = (_titleTextField.text.length > 0) ? _titleTextField.text : nil;
     
-    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
+    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancelButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
     [_actionSheet allowTapToDismiss:[_allowTapSwitch isOn]];
     [_actionSheet setStyle:[self getSelectedStyle]];
     [_actionSheet showOnViewController:self];
@@ -106,7 +106,7 @@
     NSString* cancelTitle        = [_showCancelButton isOn] ? @"Cancel" : nil;
     NSString* sheetTitle         = (_titleTextField.text.length > 0) ? _titleTextField.text : nil;
     
-    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];    
+    _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancelButtonTitle:cancelTitle otherButtonTitles:buttonTitles];    
     [_actionSheet allowTapToDismiss:[_allowTapSwitch isOn]];
     [_actionSheet setStyle:[self getSelectedStyle]];
     [_actionSheet showFromBarItem:sender onViewController:self];

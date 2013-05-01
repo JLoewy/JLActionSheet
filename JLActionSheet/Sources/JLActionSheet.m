@@ -45,7 +45,7 @@ const NSInteger cancelButtonTag      = 9382;
 const NSInteger buttonParentsViewTag = 28453;
 const NSInteger tapBGViewTag         = 4292;
 
-- (id) initWithTitle:(NSString *)title delegate:(id<JLActionSheetDelegate>)delegate cancleButtonTitle:(NSString *)cancelTitle otherButtonTitles:(NSArray *)buttonTitles
+- (id) initWithTitle:(NSString *)title delegate:(id<JLActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelTitle otherButtonTitles:(NSArray *)buttonTitles
 {
     if (self = [super init])
     {
@@ -80,9 +80,9 @@ const NSInteger tapBGViewTag         = 4292;
 }
 
 
-+ (id) sheetWithTitle:(NSString *)title delegate:(id<JLActionSheetDelegate>)delegate cancleButtonTitle:(NSString *)cancelTitle otherButtonTitles:(NSArray *)buttonTitles
++ (id) sheetWithTitle:(NSString *)title delegate:(id<JLActionSheetDelegate>)delegate cancelButtonTitle:(NSString *)cancelTitle otherButtonTitles:(NSArray *)buttonTitles
 {
-    return [[JLActionSheet alloc] initWithTitle:title delegate:delegate cancleButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
+    return [[JLActionSheet alloc] initWithTitle:title delegate:delegate cancelButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
 }
 
 #pragma mark - 

@@ -32,8 +32,8 @@ typedef void(^JLActionBlock)(JLActionSheet* actionSheet, NSInteger buttonIndex);
 @property JLStyle style;
 
 /// Initialization Methods
-+ (id) sheetWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancleButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;
-- (id) initWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancleButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;
++ (id) sheetWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancelButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;
+- (id) initWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancelButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;
 
 /// Action Block Methods
 - (void) setClickedButtonBlock:(JLActionBlock) actionBlock;
