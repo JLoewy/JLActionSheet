@@ -162,8 +162,9 @@ const NSInteger tapBGViewTag         = 4292;
 - (void) showInView:(UIView *)parentView
 {
     if (!parentView) {
-        parentView = [UIApplication sharedApplication].keyWindow.subviews[0];
+      parentView = [UIApplication sharedApplication].keyWindow.subviews.lastObject;
     }
+
     [self setFrame:parentView.bounds];
     
     // Create the parent UIView that houses the JLActionButtons
