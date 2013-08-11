@@ -161,8 +161,7 @@ const NSInteger tapBGViewTag         = 4292;
  */
 - (void) showInView:(UIView *)parentView
 {
-    UIView* viewToAddTo = [UIApplication sharedApplication].keyWindow.subviews[0];
-    [self setFrame:viewToAddTo.bounds];
+    [self setFrame:parentView.bounds];
     
     // Create the parent UIView that houses the JLActionButtons
     UIView* buttonsParentView   = [self layoutButtonsWithTitle:YES];
@@ -172,7 +171,7 @@ const NSInteger tapBGViewTag         = 4292;
     [self addSubview:buttonsParentView];
     
     [self setAlpha:0.0f];
-    [viewToAddTo addSubview:self];
+    [parentView addSubview:self];
     [UIView animateWithDuration:kBGFadeDuration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
         [self setAlpha:1.0f];
         [buttonsParentView setCenter:originalCenter];
