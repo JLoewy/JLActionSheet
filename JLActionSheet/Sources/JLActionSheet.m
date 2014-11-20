@@ -92,7 +92,14 @@ const NSInteger tapBGViewTag         = 4292;
 - (UIView*) layoutButtonsWithTitle:(BOOL) allowTitle
 {
     CGFloat titleOffset                 = (_title == nil || !allowTitle) ? 0 : 20;
-    JLActionSheetStyle* currentStlye    = [[JLActionSheetStyle alloc] initWithStyle:_style];
+    
+    JLActionSheetStyle* currentStlye;
+    if (_sheetStyle) {
+        currentStlye = _sheetStyle;
+    } else {
+        currentStlye = [[JLActionSheetStyle alloc] initWithStyle:_style];
+    }
+
     CGFloat buttonHeight                = kActionButtonHeight;
     NSInteger buttonCount               = _cancelTitle ? (_buttonTitles.count + 1) : _buttonTitles.count;
     CGFloat parentViewHeight            = ((buttonHeight * buttonCount) + titleOffset);
@@ -113,9 +120,17 @@ const NSInteger tapBGViewTag         = 4292;
         currentButtonTop -= buttonHeight;
     }
     
+    int index = (int)_buttonTitles.count;
     for (NSString* currentButtonTitle in _buttonTitles)
     {
+        index--;
+        
         JLActionButton* currentActionButton = [JLActionButton buttonWithStyle:currentStlye andTitle:currentButtonTitle isCancel:NO];
+        
+        if (currentStlye.textColors && currentStlye.textColors.count > 0) {
+            [currentActionButton setTitleColor:[currentStlye getTextColorAtIndex:[NSNumber numberWithInt:index]] forState:UIControlStateNormal];
+        }
+        
         currentActionButton.tag             = currentButtonTag++;
         
         [currentActionButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];

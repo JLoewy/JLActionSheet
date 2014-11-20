@@ -125,4 +125,12 @@
     return isCancel ? _cancelTextShadowColor : _textShadowColor;
 }
 
+- (UIColor *)getTextColorAtIndex:(NSNumber *)index {
+    if (self.textColors && [index intValue] < self.textColors.count) {
+        return [self.textColors objectAtIndex:[index intValue]];
+    } else {
+        return self.textColor;
+    }
+}
+
 @end

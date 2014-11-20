@@ -17,6 +17,8 @@ typedef enum JLStyle {
 
 @interface JLActionSheetStyle : NSObject
 
+@property (nonatomic, strong) NSArray *textColors;
+
 /// Border Colors
 @property (nonatomic, strong, readonly) UIColor* lightBorderColor;
 @property (nonatomic, strong, readonly) UIColor* darkBorderColor;
@@ -28,6 +30,7 @@ typedef enum JLStyle {
 
 /// Text Color Accessors
 - (UIColor*) getTextColor:(BOOL) isCancel;
+- (UIColor *)getTextColorAtIndex:(NSNumber *)index;
 - (UIColor*) getTextShadowColor:(BOOL) isCancel;
 
 @end

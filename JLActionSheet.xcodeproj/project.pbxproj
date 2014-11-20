@@ -22,6 +22,7 @@
 		3669655116BBA8B500E618B2 /* JLActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3669655016BBA8B500E618B2 /* JLActionButton.m */; };
 		3669655416BBADDE00E618B2 /* JLActionSheetStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 3669655316BBADDE00E618B2 /* JLActionSheetStyle.m */; };
 		3669655616BBB55600E618B2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3669655516BBB55500E618B2 /* QuartzCore.framework */; };
+		D4C9EC5B1A1DC7AA002A1FBC /* SampleSheetStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C9EC5A1A1DC7AA002A1FBC /* SampleSheetStyle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,8 @@
 		3669655216BBADDE00E618B2 /* JLActionSheetStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JLActionSheetStyle.h; path = Sources/JLActionSheetStyle.h; sourceTree = "<group>"; };
 		3669655316BBADDE00E618B2 /* JLActionSheetStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JLActionSheetStyle.m; path = Sources/JLActionSheetStyle.m; sourceTree = "<group>"; };
 		3669655516BBB55500E618B2 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D4C9EC591A1DC7AA002A1FBC /* SampleSheetStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SampleSheetStyle.h; path = Sources/SampleSheetStyle.h; sourceTree = "<group>"; };
+		D4C9EC5A1A1DC7AA002A1FBC /* SampleSheetStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SampleSheetStyle.m; path = Sources/SampleSheetStyle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +133,8 @@
 				3669655016BBA8B500E618B2 /* JLActionButton.m */,
 				3669655216BBADDE00E618B2 /* JLActionSheetStyle.h */,
 				3669655316BBADDE00E618B2 /* JLActionSheetStyle.m */,
+				D4C9EC591A1DC7AA002A1FBC /* SampleSheetStyle.h */,
+				D4C9EC5A1A1DC7AA002A1FBC /* SampleSheetStyle.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -202,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3669653516BB92C400E618B2 /* main.m in Sources */,
+				D4C9EC5B1A1DC7AA002A1FBC /* SampleSheetStyle.m in Sources */,
 				3669653916BB92C400E618B2 /* JLAppDelegate.m in Sources */,
 				3669654216BB92C400E618B2 /* JLViewController.m in Sources */,
 				3669654E16BB93B900E618B2 /* JLActionSheet.m in Sources */,
