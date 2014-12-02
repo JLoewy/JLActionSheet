@@ -55,4 +55,8 @@
     return self;
 }
 
+- (UIEdgeInsets)getTitleInsets {
+    return UIEdgeInsetsMake(15, 15, 15, 15);
+}
+
 @end

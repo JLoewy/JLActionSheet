@@ -28,6 +28,9 @@ typedef enum JLStyle {
 - (UIColor*) getBGColorHighlighted:(BOOL) highlighted;
 - (UIColor*) getCancelBGColorHighlighted:(BOOL) highlighted;
 
+- (UIEdgeInsets)getTitleInsets;
+- (UIFont *)getTitleFont;
+
 /// Text Color Accessors
 - (UIColor*) getTextColor:(BOOL) isCancel;
 - (UIColor *)getTextColorAtIndex:(NSNumber *)index;

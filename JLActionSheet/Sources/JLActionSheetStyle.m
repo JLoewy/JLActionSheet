@@ -101,6 +101,16 @@
     return self;
 }
 
+#pragma mark - Style title
+
+- (UIEdgeInsets)getTitleInsets {
+    return UIEdgeInsetsZero;
+}
+
+- (UIFont *)getTitleFont {
+    return [UIFont systemFontOfSize:14.0f];
+}
+
 #pragma mark - 
 #pragma mark - Style UIColor Accessor Methods
 
