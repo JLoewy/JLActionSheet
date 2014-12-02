@@ -111,6 +111,10 @@
     return [UIFont systemFontOfSize:14.0f];
 }
 
+- (NSMutableParagraphStyle *)getTitleParagraphStyle {
+    return nil;
+}
+
 #pragma mark - 
 #pragma mark - Style UIColor Accessor Methods
 

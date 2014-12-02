@@ -30,6 +30,7 @@ typedef enum JLStyle {
 
 - (UIEdgeInsets)getTitleInsets;
 - (UIFont *)getTitleFont;
+- (NSMutableParagraphStyle *)getTitleParagraphStyle;
 
 /// Text Color Accessors
 - (UIFont *) getTextFont;

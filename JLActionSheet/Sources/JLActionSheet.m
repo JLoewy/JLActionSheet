@@ -104,7 +104,7 @@ const NSInteger tapBGViewTag         = 4292;
         UIFont *myFont = [currentStlye getTitleFont];
         CGRect newBound = [_title boundingRectWithSize:maximumSize
                                                options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
-                                            attributes:@{NSFontAttributeName:myFont}
+                                            attributes:@{NSFontAttributeName:myFont, NSParagraphStyleAttributeName:[currentStlye getTitleParagraphStyle]}
                                                context:nil];
         titleOffset = newBound.size.height + [currentStlye getTitleInsets].top + [currentStlye getTitleInsets].bottom;
     }
@@ -163,7 +163,14 @@ const NSInteger tapBGViewTag         = 4292;
         [titleLabel setShadowOffset:CGSizeMake(0, -1.0)];
         [titleLabel setShadowColor:[currentStlye getTextShadowColor:NO]];
         [titleLabel setTextAlignment:NSTextAlignmentLeft];
-        [titleLabel setText:_title];
+        
+        if ([currentStlye getTitleParagraphStyle]) {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_title];
+            [attributedString addAttribute:NSParagraphStyleAttributeName value:[currentStlye getTitleParagraphStyle] range:NSMakeRange(0, [_title length])];
+            [titleLabel setAttributedText:attributedString];
+        } else {
+            [titleLabel setText:_title];
+        }
         [titleLabel setNumberOfLines:0];
         
         // Initialize and add the two border objects

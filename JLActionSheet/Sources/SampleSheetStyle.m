@@ -63,4 +63,10 @@
     return [UIFont systemFontOfSize:20.0f];
 }
 
+- (NSMutableParagraphStyle *)getTitleParagraphStyle {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:10];
+    return paragraphStyle;
+}
+
 @end
