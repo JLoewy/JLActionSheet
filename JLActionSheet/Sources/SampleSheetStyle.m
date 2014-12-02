@@ -59,4 +59,8 @@
     return UIEdgeInsetsMake(15, 15, 15, 15);
 }
 
+- (UIFont *)getTextFont {
+    return [UIFont systemFontOfSize:20.0f];
+}
+
 @end

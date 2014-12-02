@@ -56,7 +56,7 @@
     
     
     // Configure the title item
-    [actionButton.titleLabel setFont:[UIFont systemFontOfSize:20.0f]];
+    [actionButton.titleLabel setFont:[style getTextFont]];
     [actionButton setTitleColor:[style getTextColor:isCancel] forState:UIControlStateNormal];
     [actionButton setTitleShadowColor:[style getTextShadowColor:isCancel] forState:UIControlStateNormal];
     [actionButton.titleLabel setShadowOffset:CGSizeMake(0.0f, -1.0f)];

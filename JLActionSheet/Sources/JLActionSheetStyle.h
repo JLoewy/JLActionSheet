@@ -32,6 +32,7 @@ typedef enum JLStyle {
 - (UIFont *)getTitleFont;
 
 /// Text Color Accessors
+- (UIFont *) getTextFont;
 - (UIColor*) getTextColor:(BOOL) isCancel;
 - (UIColor *)getTextColorAtIndex:(NSNumber *)index;
 - (UIColor*) getTextShadowColor:(BOOL) isCancel;

@@ -114,6 +114,9 @@
 #pragma mark - 
 #pragma mark - Style UIColor Accessor Methods
 
+- (UIFont *) getTextFont {
+    return [UIFont systemFontOfSize:20.0f];
+}
 
 - (UIColor*) getBGColorHighlighted:(BOOL)highlighted
 {
