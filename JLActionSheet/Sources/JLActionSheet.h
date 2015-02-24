@@ -14,6 +14,8 @@
 @protocol JLActionSheetDelegate <NSObject>
 
 - (void) actionSheet:(JLActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+
+@optional
 - (void) actionSheet:(JLActionSheet*)actionSheet didDismissButtonAtIndex:(NSInteger)buttonIndex;
 
 @end
