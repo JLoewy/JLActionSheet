@@ -310,8 +310,12 @@ const NSInteger tapBGViewTag         = 4292;
             //----
             if (didDismissBlock)
                 didDismissBlock(self, ((JLActionButton*)sender).tag);
-            else if ([sender isKindOfClass:[JLActionButton class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
-                    [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+            else if ([sender isKindOfClass:[JLActionButton class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)]) {
+                [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+            } else if ([sender isKindOfClass:[UITapGestureRecognizer class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)]) {
+                int index = _cancelTitle ? 0 : -1;
+                [_delegate actionSheet:self didDismissButtonAtIndex:index];
+            }
         }];
     }
     else
