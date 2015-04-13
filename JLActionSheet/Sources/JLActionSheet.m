@@ -91,8 +91,24 @@ const NSInteger tapBGViewTag         = 4292;
 
 - (UIView*) layoutButtonsWithTitle:(BOOL) allowTitle
 {
-    CGFloat titleOffset                 = (_title == nil || !allowTitle) ? 0 : 20;
-    JLActionSheetStyle* currentStlye    = [[JLActionSheetStyle alloc] initWithStyle:_style];
+    JLActionSheetStyle* currentStlye;
+    if (_sheetStyle) {
+        currentStlye = _sheetStyle;
+    } else {
+        currentStlye = [[JLActionSheetStyle alloc] initWithStyle:_style];
+    }
+    
+    CGFloat titleOffset                 = 0;
+    if (_title != nil && allowTitle) {
+        CGSize maximumSize = CGSizeMake(self.bounds.size.width - [currentStlye getTitleInsets].left - [currentStlye getTitleInsets].right, 9999);
+        UIFont *myFont = [currentStlye getTitleFont];
+        CGRect newBound = [_title boundingRectWithSize:maximumSize
+                                               options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                            attributes:@{NSFontAttributeName:myFont, NSParagraphStyleAttributeName:[currentStlye getTitleParagraphStyle]}
+                                               context:nil];
+        titleOffset = newBound.size.height + [currentStlye getTitleInsets].top + [currentStlye getTitleInsets].bottom;
+    }
+
     CGFloat buttonHeight                = kActionButtonHeight;
     NSInteger buttonCount               = _cancelTitle ? (_buttonTitles.count + 1) : _buttonTitles.count;
     CGFloat parentViewHeight            = ((buttonHeight * buttonCount) + titleOffset);
@@ -113,9 +129,17 @@ const NSInteger tapBGViewTag         = 4292;
         currentButtonTop -= buttonHeight;
     }
     
+    int index = (int)_buttonTitles.count;
     for (NSString* currentButtonTitle in _buttonTitles)
     {
+        index--;
+        
         JLActionButton* currentActionButton = [JLActionButton buttonWithStyle:currentStlye andTitle:currentButtonTitle isCancel:NO];
+        
+        if (currentStlye.textColors && currentStlye.textColors.count > 0) {
+            [currentActionButton setTitleColor:[currentStlye getTextColorAtIndex:[NSNumber numberWithInt:index]] forState:UIControlStateNormal];
+        }
+        
         currentActionButton.tag             = currentButtonTag++;
         
         [currentActionButton addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -131,15 +155,34 @@ const NSInteger tapBGViewTag         = 4292;
         [buttonParentView setBackgroundColor:[currentStlye getBGColorHighlighted:NO]];
         [((JLActionButton*)[buttonParentView.subviews lastObject]) configureForTitle];
         
-        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(buttonParentView.bounds), titleOffset)];        
+        UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake([currentStlye getTitleInsets].left, 0, CGRectGetWidth(buttonParentView.bounds) - [currentStlye getTitleInsets].left - [currentStlye getTitleInsets].right, titleOffset)];
         [titleLabel setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin)];
         [titleLabel setBackgroundColor:[UIColor clearColor]];
-        [titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+        [titleLabel setFont:[currentStlye getTitleFont]];
         [titleLabel setTextColor:[currentStlye getTextColor:NO]];
         [titleLabel setShadowOffset:CGSizeMake(0, -1.0)];
         [titleLabel setShadowColor:[currentStlye getTextShadowColor:NO]];
-        [titleLabel setTextAlignment:NSTextAlignmentCenter];
-        [titleLabel setText:_title];
+        [titleLabel setTextAlignment:NSTextAlignmentLeft];
+        
+        if ([currentStlye getTitleParagraphStyle]) {
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_title];
+            [attributedString addAttribute:NSParagraphStyleAttributeName value:[currentStlye getTitleParagraphStyle] range:NSMakeRange(0, [_title length])];
+            [titleLabel setAttributedText:attributedString];
+        } else {
+            [titleLabel setText:_title];
+        }
+        [titleLabel setNumberOfLines:0];
+        
+        // Initialize and add the two border objects
+        CALayer *topBorder = [[CALayer alloc] init];
+        topBorder.frame = CGRectMake(0, titleOffset - 2, self.frame.size.width, 1);
+        [topBorder setBackgroundColor:currentStlye.lightBorderColor.CGColor];
+        [buttonParentView.layer addSublayer:topBorder];
+        
+        CALayer *bottomBorder = [[CALayer alloc] init];
+        bottomBorder.frame = CGRectMake(0, titleOffset - 1, self.frame.size.width, 1);
+        [bottomBorder setBackgroundColor:currentStlye.darkBorderColor.CGColor];
+        [buttonParentView.layer addSublayer:bottomBorder];
         
         [buttonParentView addSubview:titleLabel];
     }
@@ -161,7 +204,14 @@ const NSInteger tapBGViewTag         = 4292;
  */
 - (void) showInView:(UIView *)parentView
 {
-    UIView* viewToAddTo = [UIApplication sharedApplication].keyWindow.subviews[0];
+    UIView* viewToAddTo;
+    NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
+    UIScreen *mainScreen = UIScreen.mainScreen;
+    for (UIWindow *window in frontToBackWindows) {
+        if (window.screen == mainScreen && window.windowLevel == UIWindowLevelNormal) {
+            viewToAddTo = window;
+        }
+    }
     [self setFrame:viewToAddTo.bounds];
     
     // Create the parent UIView that houses the JLActionButtons
@@ -260,8 +310,12 @@ const NSInteger tapBGViewTag         = 4292;
             //----
             if (didDismissBlock)
                 didDismissBlock(self, ((JLActionButton*)sender).tag);
-            else if ([sender isKindOfClass:[JLActionButton class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)])
-                    [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+            else if ([sender isKindOfClass:[JLActionButton class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)]) {
+                [_delegate actionSheet:self didDismissButtonAtIndex:((JLActionButton*)sender).tag];
+            } else if ([sender isKindOfClass:[UITapGestureRecognizer class]] && [_delegate respondsToSelector:@selector(actionSheet:didDismissButtonAtIndex:)]) {
+                int index = _cancelTitle ? 0 : -1;
+                [_delegate actionSheet:self didDismissButtonAtIndex:index];
+            }
         }];
     }
     else

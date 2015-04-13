@@ -14,6 +14,8 @@
 @protocol JLActionSheetDelegate <NSObject>
 
 - (void) actionSheet:(JLActionSheet*)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
+
+@optional
 - (void) actionSheet:(JLActionSheet*)actionSheet didDismissButtonAtIndex:(NSInteger)buttonIndex;
 
 @end
@@ -30,6 +32,7 @@ typedef void(^JLActionBlock)(JLActionSheet* actionSheet, NSInteger buttonIndex);
 
 // UI Objects
 @property JLStyle style;
+@property JLActionSheetStyle *sheetStyle;
 
 /// Initialization Methods
 + (id) sheetWithTitle:(NSString*) title delegate:(id<JLActionSheetDelegate>) delegate cancelButtonTitle:(NSString*) cancelTitle otherButtonTitles:(NSArray*) buttonTitles;

@@ -9,6 +9,7 @@
 #import "JLViewController.h"
 
 #import "JLActionSheet.h"
+#import "SampleSheetStyle.h"
 
 @interface JLViewController () <JLActionSheetDelegate>
 
@@ -94,7 +95,9 @@
     
     _actionSheet                 = [JLActionSheet sheetWithTitle:sheetTitle delegate:self cancelButtonTitle:cancelTitle otherButtonTitles:buttonTitles];
     [_actionSheet allowTapToDismiss:[_allowTapSwitch isOn]];
-    [_actionSheet setStyle:[self getSelectedStyle]];
+    SampleSheetStyle *style = [[SampleSheetStyle alloc] init];
+    style.textColors = @[[UIColor redColor]];
+    [_actionSheet setSheetStyle:style];
     [_actionSheet showOnViewController:self];
 }
 
@@ -119,12 +122,12 @@
 - (void) addExampleBlocks
 {
     [_actionSheet setClickedButtonBlock:^(JLActionSheet* actionSheet, NSInteger buttonIndex){
-        NSLog(@"Call Back");
-        NSLog(@"Clicked button title: %@", [actionSheet titleAtIndex:buttonIndex]);
+//        NSLog(@"Call Back");
+//        NSLog(@"Clicked button title: %@", [actionSheet titleAtIndex:buttonIndex]);
     }];
     
     [_actionSheet setDidDismissBlock:^(JLActionSheet* actionSheet, NSInteger buttonIndex){
-        NSLog(@"Did Dismiss Block");
+//        NSLog(@"Did Dismiss Block");
     }];
 }
 
@@ -134,16 +137,16 @@
 // Called when the action button is initially clicked
 - (void) actionSheet:(JLActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"Clicked Button: %d Title: %@", buttonIndex, [actionSheet titleAtIndex:buttonIndex]);
+//    NSLog(@"Clicked Button: %d Title: %@", buttonIndex, [actionSheet titleAtIndex:buttonIndex]);
     [_selectedLabel setText:[actionSheet titleAtIndex:buttonIndex]];
-    if (buttonIndex == actionSheet.cancelButtonIndex)
-        NSLog(@"Is cancel button");
+//    if (buttonIndex == actionSheet.cancelButtonIndex)
+//        NSLog(@"Is cancel button");
 }
 
 // Called when the action button fully disappears from view
 - (void) actionSheet:(JLActionSheet *)actionSheet didDismissButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"Did dismiss");
+//    NSLog(@"Did dismiss");
 }
 
 @end

@@ -101,9 +101,26 @@
     return self;
 }
 
+#pragma mark - Style title
+
+- (UIEdgeInsets)getTitleInsets {
+    return UIEdgeInsetsZero;
+}
+
+- (UIFont *)getTitleFont {
+    return [UIFont systemFontOfSize:14.0f];
+}
+
+- (NSMutableParagraphStyle *)getTitleParagraphStyle {
+    return nil;
+}
+
 #pragma mark - 
 #pragma mark - Style UIColor Accessor Methods
 
+- (UIFont *) getTextFont {
+    return [UIFont systemFontOfSize:20.0f];
+}
 
 - (UIColor*) getBGColorHighlighted:(BOOL)highlighted
 {
@@ -123,6 +140,14 @@
 - (UIColor*) getTextShadowColor:(BOOL)isCancel
 {
     return isCancel ? _cancelTextShadowColor : _textShadowColor;
+}
+
+- (UIColor *)getTextColorAtIndex:(NSNumber *)index {
+    if (self.textColors && [index intValue] < self.textColors.count) {
+        return [self.textColors objectAtIndex:[index intValue]];
+    } else {
+        return self.textColor;
+    }
 }
 
 @end
